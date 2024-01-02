@@ -13,7 +13,10 @@
 
 (defun %ensure-bank-ht (bank metric)
   (when (<= (length (programs bank)) metric)
-    (setf (programs bank) (adjust-array (programs bank) (1+ metric))))
+    (setf (programs bank) (adjust-array (programs bank)
+                                        (max (ceiling (* 1.3 (length (programs bank))))
+                                             (1+ metric))
+                                        :initial-element nil)))
   (when (null (aref (programs bank) metric))
     (setf (aref (programs bank) metric) (make-hash-table))))
 

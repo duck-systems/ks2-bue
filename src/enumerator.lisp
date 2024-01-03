@@ -96,8 +96,13 @@
       (loop with candidates = (co-new-terms bank grammar i metric-type)
             while (co-has-more-terms? candidates)
             for term = (co-next-term candidates)
-            if (and (eql initial-nt (ast:non-terminal term))
-                    (semgus:check-program semgus-problem term))
-              do (return-from enumerate term)
+            if (eql initial-nt (ast:non-terminal term))
+              do (progn
+                   (incf ast:*candidate-concrete-programs*)
+                   (when (= 1 (incf (getf ast:*concrete-candidates-by-size* i 0)))
+                     (ast:add-checkpoint i))
+                   (ast:trace-program term)
+                   (when (semgus:check-program semgus-problem term)
+                     (return-from enumerate term)))
             end
             do (add-to-bank bank term i)))))

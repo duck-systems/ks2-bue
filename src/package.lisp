@@ -1,5 +1,5 @@
 ;;;;
-;;;; ks2 SyGuS package
+;;;; ks2 bottom-up enumerator package
 ;;;;
 (defpackage #:systems.duck.ks2.bue
   (:use #:cl)
